@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Language Code Executor</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function handleFileSelect(event) {
+            var file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function(fileEvent) {
+                document.getElementById('codeArea').value = fileEvent.target.result;
+            };
+            reader.readAsText(file, "UTF-8"); // 明确指定编码为 UTF-8
+
+        }
+
+        function executeCode() {
+            var language = document.getElementById("languageSelect").value;
+            var formData = new FormData();
+            var fileBlob = new Blob([document.getElementById("codeArea").value], { type: "text/plain;charset=utf-8" });
+            formData.append("file", fileBlob);
+            formData.append("language", language);
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/execute",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    document.getElementById("result").textContent = response;
+                },
+                error: function(xhr) {
+                    document.getElementById("result").textContent = "Error: " + xhr.status + " " + xhr.statusText;
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<h1>Multi-Language Code Executor</h1>
+<input type="file" id="fileInput" onchange="handleFileSelect(event)"><br>
+<select id="languageSelect">
+    <option value="python">Python</option>
+    <option value="java">Java</option>
+    <option value="cpp">C++</option>
+</select><br>
+<textarea id="codeArea" rows="10" cols="50" placeholder="File content will be displayed here..."></textarea><br>
+<button onclick="executeCode()">Run Code</button>
+<h2>Output:</h2>
+<pre id="result"></pre>
+</body>
+</html>
