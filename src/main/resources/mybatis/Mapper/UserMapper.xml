@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctc.library.dao.UserDao">
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">userName,</if>
+            <if test="password != null">password,</if>
+            <if test="characterName != null">characterName,</if>
+            <if test="trueName != null">trueName,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="address != null">address,</if>
+            <if test="sex != null">sex,</if>
+            <if test="isRegistration != null">isRegistration,</if>
+            <if test="avatarPath != null">avatarPath,</if>
+            <if test="accountStatus != null">accountStatus,</if>
+            <if test="unitName != null">unitName,</if>
+            <if test="unitId != null">unitId,</if>
+            <if test="characterId != null">characterId,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">#{userName},</if>
+            <if test="password != null">#{password},</if>
+            <if test="characterName != null">#{characterName},</if>
+            <if test="trueName != null">#{trueName},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="address != null">#{address},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="isRegistration != null">#{isRegistration},</if>
+            <if test="avatarPath != null">#{avatarPath},</if>
+            <if test="accountStatus != null">#{accountStatus},</if>
+            <if test="unitName != null">#{unitName},</if>
+            <if test="unitId != null">#{unitId},</if>
+            <if test="characterId != null">#{characterId},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePassword">
+        UPDATE user SET password = #{password} WHERE userName = #{userName}
+    </update>
+    <update id="updateAll">
+        UPDATE user
+        <set>
+            <if test="userName != null">
+                userName = #{userName},
+            </if>
+            <if test="trueName != null">
+                trueName = #{trueName},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="avatarPath != null">
+                avatarPath = #{avatarPath},
+            </if>
+            <if test="accountStatus != null">
+                accountStatus = #{accountStatus},
+            </if>
+            <if test="lastLoginTime != null">
+                lastLoginTime = #{lastLoginTime},
+            </if>
+            <if test="isRegistration != null">
+                isRegistration = #{isRegistration},
+            </if>
+            <if test="unitName != null">
+                unitName = #{unitName},
+            </if>
+            <if test="characterId != null">
+                characterId = #{characterId},
+            </if>
+            <if test="characterName != null">
+                characterName = #{characterName},
+            </if>
+            <if test="unitId != null">
+                unitId = #{unitId},
+            </if>
+        </set>
+        WHERE userId = #{userId}
+    </update>
+    <delete id="deleteByUserName">
+        DELETE FROM user WHERE userName = #{userName}
+    </delete>
+
+    <select id="selectAllUsers" resultType="com.ctc.library.entity.User">
+        SELECT * FROM user where user.userName like concat('%', #{userName} ,'%') LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="selectTotal" resultType="java.lang.Integer">
+        select count(*) from user where user.userName like concat('%', #{userName} ,'%')
+    </select>
+    <select id="selectUserByName" resultType="com.ctc.library.entity.User">
+        select * FROM user where userName = #{userName}
+    </select>
+    <select id="getUserByUnit" resultType="com.ctc.library.entity.User">
+        select * FROM user where unitName = #{unitName}
+    </select>
+</mapper>

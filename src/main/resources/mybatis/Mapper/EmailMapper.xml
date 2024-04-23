@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctc.library.dao.EmailDao">
+    <insert id="insertVerificationCode" parameterType="map">
+        INSERT INTO email (userName, verificationCode, expiryTime) VALUES (#{userName}, #{code}, #{expiryTime})
+    </insert>
+
+    <update id="updateVerificationCode" parameterType="map">
+        UPDATE email SET verificationCode = #{code}, expiryTime = #{expiryTime} WHERE userName = #{userName}
+    </update>
+
+    <select id="selectExpiryTimeByName" parameterType="String" resultType="java.sql.Timestamp">
+        SELECT expiryTime FROM email WHERE userName = #{userName}
+    </select>
+    <select id="selectVerificationCodeByName" resultType="java.lang.String">
+        SELECT verificationCode FROM email WHERE userName = #{userName}
+    </select>
+</mapper>

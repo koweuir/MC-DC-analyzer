@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctc.library.dao.UnitDao">
+    <insert id="insertUnit">
+        INSERT INTO unit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="unitName != null">unitName,</if>
+            <if test="contactPerson != null">contactPerson,</if>
+            <if test="contactNumber != null">contactNumber,</if>
+            <if test="emailAddress != null">emailAddress,</if>
+            <if test="contactAddress != null">contactAddress,</if>
+            <if test="nature != null">nature,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="unitName != null">#{unitName},</if>
+            <if test="contactPerson != null">#{contactPerson},</if>
+            <if test="contactNumber != null">#{contactNumber},</if>
+            <if test="emailAddress != null">#{emailAddress},</if>
+            <if test="contactAddress != null">#{contactAddress},</if>
+            <if test="nature != null">#{nature},</if>
+        </trim>
+    </insert>
+    <update id="updateAll">
+        UPDATE unit
+        <set>
+            <if test="unitName != null">
+                unitName = #{unitName},
+            </if>
+            <if test="contactPerson != null">
+                contactPerson = #{contactPerson},
+            </if>
+            <if test="contactNumber != null">
+                contactNumber = #{contactNumber},
+            </if>
+            <if test="emailAddress != null">
+                emailAddress = #{emailAddress},
+            </if>
+            <if test="contactAddress != null">
+                contactAddress = #{contactAddress},
+            </if>
+            <if test="nature != null">
+                nature = #{nature},
+            </if>
+        </set>
+        WHERE unitId = #{unitId}
+    </update>
+    <delete id="deleteByUnitNo">
+        DELETE FROM unit WHERE unitId = #{unitId}
+    </delete>
+
+    <select id="selectAllUnitsByPage" resultType="com.ctc.library.entity.Unit">
+        SELECT * FROM unit  where unit.unitName like concat('%', #{unitName} ,'%') LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="selectTotal" resultType="java.lang.Integer">
+        select count(*) from unit where unit.unitName like concat('%', #{unitName} ,'%')
+    </select>
+    <select id="selectUnitByName" resultType="com.ctc.library.entity.Unit">
+        select * FROM unit where unitName = #{unitName}
+    </select>
+    <select id="selectAllUnits" resultType="com.ctc.library.entity.Unit">
+        select * FROM unit
+    </select>
+</mapper>

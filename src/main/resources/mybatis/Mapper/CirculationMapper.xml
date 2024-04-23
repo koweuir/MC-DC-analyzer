@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctc.library.dao.CirculationDao">
+    <insert id="insertCirculation" useGeneratedKeys="true" keyProperty="circulationId">
+        INSERT INTO circulation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bookId != null">bookId,</if>
+            <if test="unitFrom != null">unitFrom,</if>
+            <if test="unitTo != null">unitTo,</if>
+            <if test="circulationTime != null">circulationTime,</if>
+            <if test="returnTime != null">returnTime,</if>
+            <if test="reason != null">reason,</if>
+            <if test="userName != null">userName,</if>
+            <if test="phone != null">phone,</if>
+            <if test="circulationStatus != null">circulationStatus,</if>
+            <if test="comment != null">comment,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bookId != null">#{bookId},</if>
+            <if test="unitFrom != null">#{unitFrom},</if>
+            <if test="unitTo != null">#{unitTo},</if>
+            <if test="circulationTime != null">#{circulationTime},</if>
+            <if test="returnTime != null">#{returnTime},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="circulationStatus != null">#{circulationStatus},</if>
+            <if test="comment != null">#{comment},</if>
+        </trim>
+    </insert>
+    <update id="updateAll">
+        UPDATE circulation
+        <set>
+            <if test="bookId != null">
+                bookId = #{bookId},
+            </if>
+            <if test="unitFrom != null">
+                unitFrom = #{unitFrom},
+            </if>
+            <if test="unitTo != null">
+                unitTo = #{unitTo},
+            </if>
+            <if test="circulationTime != null">
+                circulationTime = #{circulationTime},
+            </if>
+            <if test="returnTime != null">
+                returnTime = #{returnTime},
+            </if>
+            <if test="reason != null">
+                reason = #{reason},
+            </if>
+            <if test="userName != null">
+                userName = #{userName},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="circulationStatus != null">
+                circulationStatus = #{circulationStatus},
+            </if>
+            <if test="comment != null">
+                comment = #{comment},
+            </if>
+        </set>
+        WHERE circulationId = #{circulationId}
+    </update>
+
+    <select id="selectAllCirculationsIn" resultType="com.ctc.library.entity.Circulation">
+        SELECT * FROM circulation where unitTo = #{unitTo}
+                                  and circulationStatus = #{circulationStatus}
+        LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="selectTotalIn" resultType="java.lang.Integer">
+        select count(*) from circulation where unitTo = #{unitTo}
+                                         and circulationStatus = #{circulationStatus}
+    </select>
+    <select id="selectAllCirculationsOut" resultType="com.ctc.library.entity.Circulation">
+        SELECT * FROM circulation where unitFrom = #{unitFrom}
+                                  and circulationStatus = #{circulationStatus}
+        LIMIT #{pageNum}, #{pageSize}
+    </select>
+    <select id="selectTotalOut" resultType="java.lang.Integer">
+        select count(*) from circulation where unitFrom = #{unitFrom}
+                                         and circulationStatus = #{circulationStatus}
+    </select>
+    <select id="selectCirculationByNo" resultType="com.ctc.library.entity.Circulation">
+        select * FROM circulation where circulationId = #{circulationId}
+    </select>
+    <select id="countCirculation" resultType="java.lang.Integer">
+        select count(*) from circulation
+        <where>
+            <if test="unitTo != null and unitTo != ''">
+                and unitTo = #{unitTo}
+            </if>
+            <if test="unitFrom != null and unitFrom != ''">
+                and unitFrom = #{unitFrom}
+            </if>
+        </where>
+    </select>
+</mapper>
