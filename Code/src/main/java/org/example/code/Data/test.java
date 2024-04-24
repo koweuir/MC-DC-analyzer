@@ -1,4 +1,4 @@
-package org.example.codepart.Data;
+package org.example.code.Data;
 
 public class test {
     public static void main(String[] args) {

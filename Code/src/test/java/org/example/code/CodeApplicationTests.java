@@ -1,10 +1,10 @@
-package org.example.codepart;
+package org.example.code;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CodepartApplicationTests {
+class CodeApplicationTests {
 
     @Test
     void contextLoads() {

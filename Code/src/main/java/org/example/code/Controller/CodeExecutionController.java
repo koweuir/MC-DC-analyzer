@@ -1,6 +1,6 @@
-package org.example.codepart.Controller;
+package org.example.code.Controller;
 
-import org.example.codepart.Service.CodeExecutionService;
+import org.example.code.Service.CodeExecutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
